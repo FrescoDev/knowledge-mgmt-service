@@ -1,0 +1,67 @@
+version: '2'
+services:
+  node:
+    image: mhart/alpine-node:8
+    volumes:
+      - .:/usr/src/app:z
+    working_dir: /usr/src/app
+
+  yarn:
+    extends:
+      service: node
+    entrypoint: yarn
+
+  unit-test:
+    extends:
+      service: yarn
+    command: run test:unit
+
+  mongodb:
+    image: mongo:3.4.1
+
+  component-test:
+    extends:
+      service: yarn
+    command: run test:component
+    depends_on:
+      - mongodb
+      - stubs
+    environment:
+      - BASE_PATH=/
+      - PORT=80
+      - MONGODB_URL=mongodb://mongodb:27017/fact-find-management-service
+
+  dev:
+    extends:
+      service: yarn
+    ports:
+      - "3000:80"
+    command: run dev | ./node_modules/bunyan/bin/bunyan -o short
+    depends_on:
+      - mongodb
+      - stubs
+    environment:
+      - BASE_PATH=/
+      - PORT=80
+      - MONGODB_URL=mongodb://mongodb:27017/fact-find-management-service
+    labels:
+      - "traefik.backend=dev"
+      - "traefik.frontend.rule=PathPrefixStrip:/dev"
+      - "traefik.port=80"
+
+  publish-tunnel:
+    image: wernight/ngrok
+    depends_on:
+      - dev
+    ports:
+      - "3009:4040"
+    command: ngrok http dev:80
+
+  stubs:
+    extends:
+      service: yarn
+    command: run test:stubs -- 80
+    labels:
+      - "traefik.backend=stubs"
+      - "traefik.frontend.rule=PathPrefixStrip:/stubs"
+      - "traefik.port=80"

@@ -1,0 +1,9 @@
+.babelrc
+.editorconfig
+.eslintignore
+.eslintrc
+.npmrc
+test
+coverage
+Jenkinsfile
+.npmignore

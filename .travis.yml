@@ -1,0 +1,10 @@
+jobs:
+  include:
+    - stage: install
+      script: make install
+    - stage: vulnerability scan
+      script: make dependency-check
+    - stage: unit-test
+      script: make unit-test
+    - stage: component-test
+      script: make component-test
