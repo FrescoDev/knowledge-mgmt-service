@@ -3,18 +3,13 @@ services:
   - docker
 env:
   - DOCKER_COMPOSE_VERSION=2
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
 jobs:
   include:
     - stage: install
-      script: make install
+      script: sudo make install
     - stage: vulnerability-scan
-      script: make dependency-check
+      script: sudo make dependency-check
     - stage: unit-test
-      script: make unit-test
+      script: sudo make unit-test
     - stage: component-test
-      script: make component-test
+      script: sudo make component-test
