@@ -5,11 +5,5 @@ env:
   - DOCKER_COMPOSE_VERSION=2
 jobs:
   include:
-    - stage: install
-      script: sudo make install
-    - stage: vulnerability-scan
-      script: sudo make dependency-check
-    - stage: unit-test
-      script: sudo make unit-test
-    - stage: component-test
-      script: sudo make component-test
+    - stage: build
+      script: sudo make all

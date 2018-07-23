@@ -4,7 +4,7 @@ DOCKER_RUN ?= ${DOCKER_COMPOSE} run --rm
 DOCKER_BASE_IMAGE = node
 YARN ?= ${DOCKER_RUN} -e NODE_ENV=${NODE_ENV} ${DOCKER_BASE_IMAGE} yarn
 
-all: clean-up install lint unit-test component-test
+all: install dependency-check lint unit-test component-test
 
 install:
 	${YARN} install --ignore-engines --pure-lockfile
