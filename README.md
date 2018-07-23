@@ -1,6 +1,6 @@
 ## fact-find-management-service
 
-provides a restful interface for the mgmt of a subject fact find i.e. to store and retrieve a client's gathered facts.
+provides a restful interface for the mgmt of a subject's fact find i.e. to store and retrieve a client's gathered facts.
 
 ## INSTALLATION
 
@@ -19,7 +19,7 @@ provides a restful interface for the mgmt of a subject fact find i.e. to store a
 - Run ```make dev``` to run the app. (see Makefile for details.) This will run the app within the docker container specified via the docker-compose.yml/Dockerfile.
 
 - Default port: 3000
-- URL: http://localhost:3000/
+- URL: http://localhost:3000
 
 Default endpoints:
 
